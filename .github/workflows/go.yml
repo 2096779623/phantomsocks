@@ -23,9 +23,14 @@ jobs:
     - name: Build
       run: |
         sudo apt update && sudo apt install -y libpcap-dev
-        go build -v ./...
-        go build -v -tags pcap ./...
-        go build -v -tags rawsocket ./...
+        go build -v ./... -o phantomsocks-original
+        go build -v -tags pcap ./... -o phantomsocks-pcap
+        go build -v -tags rawsocket ./... -o phantomsocks-rawsocket
+    - name: upload
+      uses: actions/upload-artifact@v4
+      with:
+        name: ps-${{ matrix.target_arch }}
+        path: ./phantomsocks*
         
   build-windows:
     runs-on: windows-latest
@@ -39,22 +44,13 @@ jobs:
 
     - name: Build
       run: |
-        go build -v ./...
-        go build -v -tags pcap ./...
-        go build -v -tags windivert ./...
-        
-  build-macos:
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Set up Go
-      uses: actions/setup-go@v2
+        go build -v ./... -o phantomsocks-original
+        go build -v -tags pcap ./... -o phantomsocks-pcap
+        go build -v -tags windivert ./... -o phantomsocks-windivert
+    - name: upload
+      uses: actions/upload-artifact@v4
       with:
-        go-version: 1.19
-
-    - name: Build
-      run: |
-        go build -v ./...
-        go build -v -tags pcap ./...
+        name: ps-${{ matrix.target_arch }}
+        path: ./phantomsocks*
+        
         
