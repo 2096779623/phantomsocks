@@ -23,9 +23,9 @@ jobs:
     - name: Build
       run: |
         sudo apt update && sudo apt install -y libpcap-dev
-        go build -v ./... -o phantomsocks-original
-        go build -v -tags pcap ./... -o phantomsocks-pcap
-        go build -v -tags rawsocket ./... -o phantomsocks-rawsocket
+        go build -o phantomsocks-original -v ./...
+        go build -o phantomsocks-pcap -v -tags pcap ./...
+        go build -o phantomsocks-rawsocket -v -tags rawsocket ./...
     - name: upload
       uses: actions/upload-artifact@v4
       with:
@@ -44,9 +44,9 @@ jobs:
 
     - name: Build
       run: |
-        go build -v ./... -o phantomsocks-original
-        go build -v -tags pcap ./... -o phantomsocks-pcap
-        go build -v -tags windivert ./... -o phantomsocks-windivert
+        go build  -o phantomsocks-original -v ./...
+        go build  -o phantomsocks-pcap -v -tags pcap ./...
+        go build  -o phantomsocks-windivert -v -tags windivert ./...
     - name: upload
       uses: actions/upload-artifact@v4
       with:
